@@ -1,6 +1,7 @@
 name: Exploring Variables and Secrets (WORKFLOW level)
 
-on: workflow_dispatch
+on:
+  push
 
 #################### environment variables at WORKFLOW level ####################
 env:
@@ -25,7 +26,8 @@ jobs:
             - name: Docker Publish
               run: echo docker push ${{ vars.CONTAINER_REGISTRY }}/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME:latest
 
-    deploy:        
+    deploy:
+        if: github.ref == 'refs/heads/main'        
         needs: [docker]
         runs-on: ubuntu-latest
         steps:
