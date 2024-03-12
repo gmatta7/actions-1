@@ -1,0 +1,33 @@
+name: Exploring Variables and Secrets (WORKFLOW level)
+
+on: workflow_dispatch
+
+#################### environment variables at WORKFLOW level ####################
+env:
+  IMAGE_NAME: github-actions-nginx
+
+
+jobs:
+
+    docker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Docker Build
+              run: echo docker build -t ${{ vars.CONTAINER_REGISTRY }}/${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+            - name: Docker Login
+              env:
+                TEST_VAR: test
+              run: |
+                echo docker login --username=${{ vars.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+                echo ${{ env.TEST_VAR }} ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Docker Publish
+              run: echo docker push ${{ vars.CONTAINER_REGISTRY }}/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME:latest
+
+    deploy:        
+        needs: [docker]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Docker Run
+              run: echo docker run -d -p 8080:80 ${{ vars.CONTAINER_REGISTRY }}/${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE_NAME}}:latest
