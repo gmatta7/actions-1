@@ -1,0 +1,16 @@
+name: Generate ASCII using a shell script
+
+on: push
+
+jobs:
+  generate-ascii-using-shell-script:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: List repo files
+      run: ls -la
+
+    - name: Run shell script to generate ASCII
+      run: ../../ascii-script.sh
