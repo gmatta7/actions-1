@@ -1,0 +1,33 @@
+name: context demo
+
+on: push
+
+jobs:
+    dump-contect-to-logs-job:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Dump github context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "${{ env.GITHUB_CONTEXT }}"
+
+        - name: Dump job contect
+          env: 
+            JOB_CONTEXT: ${{ toJson(job) }}
+          run: echo "${{ env.JOB_CONTEXT }}"
+
+        - name: Dump step context
+          env:
+            STEPS_CONTEXT: ${{ toJson(steps) }}
+          run: echo "${{ env.STEPS_CONTEXT }}"
+
+        - name: Dump runner context
+          env:
+            RUNNER_CONTEXT: ${{ toJson(runner) }}
+          run: echo "${{ env.RUNNER_CONTEXT }}"
+
+        - name: Dump secret context
+          env:
+            SECRET_CONTEXT: ${{ toJson(secrets) }}
+          run: echo "${{ env.SECRET_CONTEXT }}"
+  
