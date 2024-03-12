@@ -24,7 +24,7 @@ jobs:
     needs: build_job_1
     steps:
     - name: Download Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: dragon-txt-file
 
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download Artifact file
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: dragon-txt-file
 
